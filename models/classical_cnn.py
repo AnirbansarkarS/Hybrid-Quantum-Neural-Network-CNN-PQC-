@@ -22,3 +22,20 @@ class ClassicalCNN(nn.Module):
         x = self.fc2(x)
 
         return x
+
+class ClassicalClassifier(nn.Module):
+    """
+    Wrapper for the ClassicalCNN to act as a full classifier.
+    Structure: Input -> ClassicalCNN -> Features (4) -> Linear(10) -> Output
+    """
+    def __init__(self, cnn_extractor, n_classes=10):
+        super().__init__()
+        self.cnn = cnn_extractor
+        # This linear layer takes the weak feature vector (size 4) and maps to classes
+        self.classifier = nn.Linear(self.cnn.fc2.out_features, n_classes)
+
+    def forward(self, x):
+        features = self.cnn(x)
+        out = self.classifier(features)
+        return out, features
+
