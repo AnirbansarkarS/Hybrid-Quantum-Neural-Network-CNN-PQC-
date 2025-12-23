@@ -6,3 +6,4 @@ tqdm
 qiskit
 qiskit-aer
 qiskit-machine-learning
+pylatexenc
